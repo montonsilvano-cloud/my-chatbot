@@ -1,0 +1,203 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Chatbot</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #b5c5dd;
+            text-align: center;
+        }
+
+        h1 {
+            color: #306998;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #306998;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #214d70;
+        }
+
+        #chatbox {
+            display: none;
+        }
+
+        #messages {
+            height: 250px;
+            overflow-y: auto;
+            background: #f3f6fa;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .message {
+            margin: 10px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="login">
+        <h1>🤖 Welcome to the Bot Project!</h1>
+        <p>Enter your password to continue.</p>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+        >
+
+        <button onclick="login()">Login</button>
+        <p id="error" class="error"></p>
+    </div>
+
+    <div id="chatbox">
+        <h1>💬 My Chatbot</h1>
+        <div id="messages"></div>
+
+        <form id="chatForm">
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Type your message..."
+                autocomplete="off"
+                required
+            >
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // Demo password only. This is NOT secure authentication.
+    const correctPassword = "pisti ka kuliraha ka sa sunod taronga kog tubag";
+
+    function login() {
+        const password =
+            document.getElementById("password").value;
+
+        if (password === correctPassword) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("chatbox").style.display = "block";
+
+            addMessage("Bot", "Welcome to the chatbot!");
+        } else {
+            document.getElementById("error").textContent =
+                "❌ Password incorrect!";
+        }
+    }
+
+    function addMessage(sender, text) {
+        const messages = document.getElementById("messages");
+        const line = document.createElement("div");
+
+        line.className = "message";
+
+        const label = document.createElement("strong");
+        label.textContent = sender + ": ";
+
+        const content = document.createElement("span");
+        content.textContent = text;
+
+        line.appendChild(label);
+        line.appendChild(content);
+        messages.appendChild(line);
+
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function getBotReply(message) {
+        const text = message.trim().toLowerCase();
+
+        if (text === "hi") {
+            return "Hello there! How are you?";
+        } else if (text === "hello") {
+            return "Hi there! How are you?";
+        } else if (text === "how are you?") {
+            return "I'm good! How about you?";
+        } else if (text === "im good" || text === "i'm good") {
+            return "Great! Do you want something from me?";
+        } else if (text === "good") {
+            return "Great! Do you want something from me?";
+        } else {
+            return "Sorry, I don't understand. Please try again.";
+        }
+    }
+
+    document.getElementById("chatForm").addEventListener(
+        "submit",
+        function(event) {
+            event.preventDefault();
+
+            const input = document.getElementById("userInput");
+            const message = input.value.trim();
+
+            if (message === "") return;
+
+            addMessage("Me", message);
+            addMessage("Bot", getBotReply(message));
+
+            input.value = "";
+            input.focus();
+        }
+    );
+
+    document.getElementById("password").addEventListener(
+        "keydown",
+        function(event) {
+            if (event.key === "Enter") {
+                login();
+            }
+        }
+    );
+</script>
+
+</body>
+</html>
+```
